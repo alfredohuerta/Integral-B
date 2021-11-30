@@ -6,6 +6,7 @@
 using namespace std;
 
 struct Libros{
+    int id;
     int numeroDeHojas;
     string nombre;
     string ubicacion;
