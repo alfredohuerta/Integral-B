@@ -16,5 +16,8 @@
 using namespace std;
 
 int main(){
+
+    Menu mainz;
+
     return 0;
 }
