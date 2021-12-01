@@ -5,6 +5,8 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "libros.h"
 #include "grafo.h"
@@ -29,28 +31,32 @@ class Pasillo{
         vector<string> nombreLibros; 
         int numeroLibros;
     public:
-        Pasillo(string, vector<string>, int);
+        Pasillo(int, string, vector<vector<string>>, int);
         string getNombre();
         int getnumeroLibros();
-        vector<struct Libros> crearLibros(int, int, vector<string>, string);
+        vector<struct Libros> crearLibros(int, vector<string>, string);
 };
 
-Pasillo::Pasillo(string nombre, vector<string> nombres, int nlibros){
+Pasillo::Pasillo(int id, string nombre, vector<vector<string>> nombres, int nlibros){
+    for(int i= 0; i < nlibros; i++){
+        nombreLibros.push_back(nombres[id][i]);
+    }
+
     nombreP= nombre;
-    nombreLibros= nombres;
     numeroLibros= nlibros;
-    contenido= crearLibros(1, 100, nombreLibros, nombre);
+    contenido= crearLibros(1, nombreLibros, nombre);
 }
 
-vector<struct Libros> Pasillo::crearLibros(int id, int pag, vector<string> nombres, string ubi){
+vector<struct Libros> Pasillo::crearLibros(int id, vector<string> titulos, string ubi){
     Libros lirbo;
     vector<struct Libros> temp;
     int i= 0;
+    int paginas= rand() % 500 + 100;
 
-    for(int j= id; id < id+nombres.size(); j++){
-        lirbo.id= j;
-        lirbo.numeroDeHojas= (((pag*3)+1)-5);
-        lirbo.nombre= nombres[i];
+    for(int j= 0; j < titulos.size(); j++){
+        lirbo.id= i;
+        lirbo.numeroDeHojas= paginas;
+        lirbo.nombre= titulos[j];
         lirbo.ubicacion= ubi;
 
         temp.push_back(lirbo);
@@ -63,10 +69,30 @@ vector<struct Libros> Pasillo::crearLibros(int id, int pag, vector<string> nombr
 class Menu{
     private:
         vector<Pasillo> pasillos;
-        vector<string> nombrePasillos= {"Recepcion", "Poesia", "Medicina", "Ciencias naturales", "Fisica", "Computacion", "Politica"};
-        vector<string> nombreLibros= {"Iliada", "La Divina Comedia", "Nostalgia de la Muerte", "Poesía en movimiento", 
-                                      "Poesía Reunida - Alí Chumacero", "100 Poemas de Amor y una Canción desesperada", 
-                                      "La Eneida"};
+        vector<string> nombrePasillos= {"Recepcion", "Poesia", "Medicina", "Ciencias naturales", "Fisica", "Computacion", 
+                                        "Politica"};
+
+        vector<string> nombreLibrosP= {"Iliada", "La Divina Comedia", "Nostalgia de la Muerte", "Poesía en movimiento", 
+                                      "Poesía Reunida - Alí Chumacero", "100 Poemas de Amor y una Canción desesperada"};
+
+        vector<string> nombreLibrosM= {"Anatomía básica", "Harrison - Medicina interna", "Histología", "Epidemiología", 
+                                       "Medicina de bolsillo", "Fisiologia médica"};
+
+        vector<string> nombreLibrosCN= {"Ciencias Natuales - SEP", "Zoología básica", "El Origen de las especies", 
+                                        "Ciencias Naturales 1", "Somos agua", "Problemas resueltos de química"};
+
+        vector<string> nombreLibrosF= {"Breve historia del tiempo", "La teoría del todo", "Agujeros negros y tiempo curvo"
+                                       "La teoría de la relatividad", "Cosmos", "Fundamentos de la física"};
+
+        vector<string> nombreLibrosC= {"Cracking the coding interview", "Compiladores", "Software libre para una sociedad libre",
+                                       "Deep learning with Python", "Sistemas operativos modernos", "Python a fondo"};
+
+        vector<string> nombreLibrosPol= {"El principe", "El arte de la guerra", "La consitución mexicana", 
+                                         "Así habló Zaratustra", "Dialogos socráticos", 
+                                         "Dialogo en el infierno entre Maquiavelo y Montesquieu"};
+
+        vector<vector<string>> todos= {{"Recepcion"}, {nombreLibrosP}, {nombreLibrosM}, {nombreLibrosCN}, 
+                                              {nombreLibrosF}, {nombreLibrosC}, {nombreLibrosPol}};
     public:
         vector<Pasillo> crearPasillos();
 
@@ -81,9 +107,12 @@ vector<Pasillo> Menu::crearPasillos(){
     vector<Pasillo> temp;
 
     for(int i= 1; i < nombrePasillos.size(); i++){
-        Pasillo basic(nombrePasillos[i], nombreLibros, nombreLibros.size());
-        temp.push_back(basic);
+        for(int j= 0; j < 5; j++){
+            Pasillo basic(i, nombrePasillos[i], todos, 5);
+            temp.push_back(basic);
+        }
     }
+
     return temp;
 }
 
