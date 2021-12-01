@@ -93,6 +93,7 @@ void Graph::dfsHelper(int current, int goal, stack<int> &st, list<int> &visited,
 		cout << "Se encontro un camino. ";
 	} else if(st.empty()){
 		cout << "No se encontró." << endl;
+		return;
 	} else{
 		current= st.top();
 		st.pop();

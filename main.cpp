@@ -19,5 +19,8 @@ int main(){
 
     Menu mainz;
 
+    //mainz.usarAVL();
+    mainz.crearGrafo();
+
     return 0;
 }
