@@ -132,8 +132,24 @@ vector<Pasillo> Menu::crearPasillos(){
 
 void Menu::crearGrafo(){
     Graph grafo;
+    int inicio, final;
 
     grafo.loadGraphList("Pasillos.txt", 18, 18);
+
+    cout << "Estos son los pasillos de la biblioteca: " << endl;
+    for(int i= 1; i < nombrePasillos.size(); i++){
+        cout << i << " " << nombrePasillos[i] << endl;
+    }
+
+    cout << "Ingrese su pasillo actual: ";
+    cin >> inicio;
+    cout << nombrePasillos[inicio] << endl;
+    cout << endl << "Ingrese el pasillo al que desea ir: ";
+    cin >> final;
+    cout << nombrePasillos[final] << endl;
+
+    cout << grafo.DFS(inicio, final, nombrePasillos) << endl;
+    
 }
 
 void Menu::crearHash(){
