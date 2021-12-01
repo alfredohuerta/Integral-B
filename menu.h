@@ -32,9 +32,11 @@ class Pasillo{
         int numeroLibros;
     public:
         Pasillo(int, string, vector<vector<string>>, int);
+        vector<struct Libros> crearLibros(int, vector<string>, string);
+
         string getNombre();
         int getnumeroLibros();
-        vector<struct Libros> crearLibros(int, vector<string>, string);
+        vector<struct Libros> getLibros();
 };
 
 Pasillo::Pasillo(int id, string nombre, vector<vector<string>> nombres, int nlibros){
@@ -66,37 +68,51 @@ vector<struct Libros> Pasillo::crearLibros(int id, vector<string> titulos, strin
     return temp;
 }
 
+string Pasillo::getNombre(){
+    return nombreP;
+}
+
+int Pasillo::getnumeroLibros(){
+    return numeroLibros;
+}
+
+vector<struct Libros> Pasillo::getLibros(){
+    return contenido;
+}
+
 class Menu{
     private:
         vector<Pasillo> pasillos;
         vector<string> nombrePasillos= {"Recepcion", "Poesia", "Medicina", "Ciencias naturales", "Fisica", "Computacion", 
                                         "Politica"};
 
-        vector<string> nombreLibrosP= {"Iliada", "La Divina Comedia", "Nostalgia de la Muerte", "Poesía en movimiento", 
-                                      "Poesía Reunida - Alí Chumacero", "100 Poemas de Amor y una Canción desesperada"};
+        vector<string> nombreLibrosP= {"Iliada", "La Divina Comedia", "Nostalgia de la Muerte", "Poesia en movimiento", 
+                                      "Poesia Reunida - Ali Chumacero", "100 Poemas de Amor y una Cancion desesperada"};
 
-        vector<string> nombreLibrosM= {"Anatomía básica", "Harrison - Medicina interna", "Histología", "Epidemiología", 
+        vector<string> nombreLibrosM= {"Anatomia basica", "Harrison - Medicina interna", "Histología", "Epidemiologia", 
                                        "Medicina de bolsillo", "Fisiologia médica"};
 
-        vector<string> nombreLibrosCN= {"Ciencias Natuales - SEP", "Zoología básica", "El Origen de las especies", 
-                                        "Ciencias Naturales 1", "Somos agua", "Problemas resueltos de química"};
+        vector<string> nombreLibrosCN= {"Ciencias Natuales - SEP", "Zoologia basica", "El Origen de las especies", 
+                                        "Ciencias Naturales 1", "Somos agua", "Problemas resueltos de quimica"};
 
-        vector<string> nombreLibrosF= {"Breve historia del tiempo", "La teoría del todo", "Agujeros negros y tiempo curvo"
-                                       "La teoría de la relatividad", "Cosmos", "Fundamentos de la física"};
+        vector<string> nombreLibrosF= {"Breve historia del tiempo", "La teoria del todo", "Agujeros negros y tiempo curvo"
+                                       "La teoria de la relatividad", "Cosmos", "Fundamentos de la fisica"};
 
         vector<string> nombreLibrosC= {"Cracking the coding interview", "Compiladores", "Software libre para una sociedad libre",
                                        "Deep learning with Python", "Sistemas operativos modernos", "Python a fondo"};
 
-        vector<string> nombreLibrosPol= {"El principe", "El arte de la guerra", "La consitución mexicana", 
-                                         "Así habló Zaratustra", "Dialogos socráticos", 
+        vector<string> nombreLibrosPol= {"El principe", "El arte de la guerra", "La consitucion mexicana", 
+                                         "Asi hablo Zaratustra", "Dialogos socraticos", 
                                          "Dialogo en el infierno entre Maquiavelo y Montesquieu"};
 
         vector<vector<string>> todos= {{"Recepcion"}, {nombreLibrosP}, {nombreLibrosM}, {nombreLibrosCN}, 
                                               {nombreLibrosF}, {nombreLibrosC}, {nombreLibrosPol}};
-    public:
         vector<Pasillo> crearPasillos();
-
+    public:
         Menu();
+        void crearGrafo();
+        void crearHash();
+        void usarAVL();
 };
 
 Menu::Menu(){
@@ -107,13 +123,63 @@ vector<Pasillo> Menu::crearPasillos(){
     vector<Pasillo> temp;
 
     for(int i= 1; i < nombrePasillos.size(); i++){
-        for(int j= 0; j < 5; j++){
-            Pasillo basic(i, nombrePasillos[i], todos, 5);
-            temp.push_back(basic);
-        }
+        Pasillo basic(i, nombrePasillos[i], todos, 5);
+        temp.push_back(basic);
     }
 
     return temp;
+}
+
+void Menu::crearGrafo(){
+    Graph grafo;
+
+    grafo.loadGraphList("Pasillos.txt", 18, 18);
+}
+
+void Menu::crearHash(){
+    cout << "Crear Hash" << endl;
+}
+
+void Menu::usarAVL(){
+    cout << "Crear arbol AVL" << endl;
+    AVLLibros avl;
+    vector<struct Libros> temp;
+    int eleccionPasillo, eleccion;
+    bool flag= true;
+
+    do
+    {
+        cout << "Ingrese el pasillo del que quiere extraer los libros: ";
+        cin >> eleccionPasillo;
+
+        temp= pasillos[eleccionPasillo].getLibros();
+        
+        for(int i= 0; i < 5; i++){
+            avl.add(temp[i]);
+        }
+
+        cout << endl << "Ingrese cómo desea imprimir sus datos: \n" << "1. inorder\n 2.Preorder\n Esperando... ";
+        cin >> eleccion;
+
+        switch (eleccion)
+        {
+        case 1:
+            cout << endl << pasillos[eleccionPasillo].getNombre() << endl;
+            cout << endl << "Inorder: " << avl.inorder() << endl;
+            break;
+        case 2:
+            cout << endl << pasillos[eleccionPasillo].getNombre() << endl;
+            cout << endl << "Preorder: " << avl.preorder() << endl;
+            break;
+
+        default:
+            cout << "Opcion invalida." << endl;
+            break;
+        }
+
+        avl.removeAll();
+
+    } while (flag);
 }
 
 #endif

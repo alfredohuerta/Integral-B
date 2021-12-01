@@ -19,5 +19,7 @@ int main(){
 
     Menu mainz;
 
+    mainz.usarAVL();
+
     return 0;
 }
