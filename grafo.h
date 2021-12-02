@@ -62,6 +62,9 @@ Graph::Graph(int n){
  * @brief Método que lee el archivo de texto que contiene todas las conecciones entre los nodos y carga estas relaciones
  * en la lista adjunta.
  * 
+ * @complejidad: O(n) -> debido a que la función debe recorrer en el peor de los casos la totalidad de la longitud del 
+ * archivo de texto
+ * 
  * @param file_name nombre del archivo que contien las conecciones entre los nodos
  * @param a valor del nodo
  * @param b valor del nodo
@@ -99,6 +102,9 @@ void Graph::addEdgeAdjList(int u, int v){
 
 /**
  * @brief función que llama al dfs y carga los demás datos necesarios en otras funciones auxiliares.
+ * 
+ * @complejidad: O(n*m) -> debido a que recorre todos los nodos que pueda hasta encontrar el camino hasta el goal y estos
+ * se calculan en base a los nodos y arcos que tiene el grafo
  * 
  * @param start nodo donde se inicia
  * @param goal nodo al que se quiere ir

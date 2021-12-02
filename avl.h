@@ -382,6 +382,8 @@ bool AVLLibros::empty() const {
 /**
  * @brief Función que agrega un nodo al árbol
  * 
+ * @complejidad: O(n) -> porque en el peor de los casos debe revisar todos los datos el arbol para que esté bien balanceado
+ * 
  * @param lirbo valor a ingresar en el árbol.
  */
 void AVLLibros::add(const Libros &lirbo) {
@@ -433,6 +435,8 @@ void AVLLibros::removeAll() {
 /**
  * @brief Función que imprime en forma inorder los nodos del árbol
  * 
+ * @complejidad: O(n) porque imprime todos los datos del AVL, así que debe recorrerlo todo
+ * 
  * @return string datos del árbol
  */
 string AVLLibros::inorder() const {
@@ -447,6 +451,8 @@ string AVLLibros::inorder() const {
 
 /**
  * @brief FUnción que imprime en forma preorder los nodos del árbol
+ * 
+ * @complejidad: O(n) porque imprime todos los datos del AVL, así que debe recorrerlo todo
  * 
  * @return string datos del árbol
  */

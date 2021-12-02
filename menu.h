@@ -270,13 +270,7 @@ void Menu::usarHash(){
 
     Hash<string, string> hash(10, string("empty"), my_Hash);
 
-    for(int i= 1; i < nombrePasillos.size(); i++){
-        aux << pasillos[i-1].getTitulos();
-
-        hash.put(nombrePasillos[i], aux.str());
-                
-        aux.str(string());
-    }
+     cout << hash.toString() << endl;
 
     do
     {
