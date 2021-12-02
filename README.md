@@ -1,6 +1,9 @@
 # Integral-B -> Sistema de navegación y consulta de una biblioteca
 Actividad integradora B para la materia TC1031 - Programación de estructuras de datos y algoritmos fundamentales.  
 Erick Alfredo García Huerta - A01708119
+## Correcciones.
+* Se implementó el primer avance en el archivo grafo.h
+* Se implementó el segundo avance en el archivo hash.h
 ## Contexto.
 Una nueva biblioteca ha abierto en la ciudad y quieres ir a revisar su colección de libros. Al entrar en el edificio te encuentras con una máquina que te permite consultar un mapa del edificio y crear un camino hacia el pasillo que contiene los libros del tema que buscas, esto debido a que algunas puertas está trabadas y sólo pueden abrirse en una dirección. Además, otra opción del sistema te permite consultar de ante mano qué libros son los que están en la colección de dicho género y otra función te deja ver su orden en función de su número de páginas.
 ## Solución.
