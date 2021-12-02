@@ -420,12 +420,14 @@ void Menu::pruebasAutomaticas(){
     }
 
 
-    ans= "[(La Divina Comedia 23) (Poesia Reunida - Ali Chumacero 73) (Nostalgia de la Muerte 145) "
-         "(Poesia en movimiento 482) (Iliada 521)]";
+    ans= "[(La Divina Comedia Numero de paginas: 23) (Poesia Reunida - Ali Chumacero Numero de paginas: 73) "
+         "(Nostalgia de la Muerte Numero de paginas: 145) "
+         "(Poesia en movimiento Numero de paginas: 482) (Iliada Numero de paginas: 521)]";
     test= avl.inorder();
 
-    ans2= "[(Nostalgia de la Muerte 145) (La Divina Comedia 23) (Poesia Reunida - Ali Chumacero 73) (Iliada 521) "
-          "(Poesia en movimiento 482)]";
+    ans2= "[(Nostalgia de la Muerte Numero de paginas: 145) (La Divina Comedia Numero de paginas: 23) " 
+          "(Poesia Reunida - Ali Chumacero Numero de paginas: 73) (Iliada Numero de paginas: 521) "
+          "(Poesia en movimiento Numero de paginas: 482)]";
     test2= avl.preorder();
 
     if(!ans.compare(test) && !ans2.compare(test2)){

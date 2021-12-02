@@ -1,3 +1,9 @@
+/**
+ * @file avl.h
+ * @author Erick Alfredo García Huerta
+ * @brief Función que recibe una serie de libros y los acomoda en función de su número de págias
+ * @date 2021-12-02
+ */
 #ifndef AVL_H_
 #define AVL_H_
 
@@ -83,17 +89,17 @@ void Node::add(const Libros &lirbo) {
  * 
  * @complejidad: O(log n) debido a que por la validación, no se pueden recorrer ambas ramas del árbol.
  * 
- * @param id del libro
+ * @param numeroDeHojas del libro
  * @return true se encontró el libro
  * @return false no se encontró el libro
  */
-bool Node::find(int id) {
-    if (id == value.id) {
+bool Node::find(int numeroDeHojas) {
+    if (numeroDeHojas == value.numeroDeHojas) {
         return true;
-    } else if (id < value.id) {
-        return (left != 0 && left->find(id));
-    } else if (id > value.id) {
-        return (right != 0 && right->find(id));
+    } else if (numeroDeHojas < value.numeroDeHojas) {
+        return (left != 0 && left->find(numeroDeHojas));
+    } else if (numeroDeHojas > value.numeroDeHojas) {
+        return (right != 0 && right->find(numeroDeHojas));
     }
     return false;
 }
@@ -164,7 +170,7 @@ void Node::inorder(stringstream &aux) const {
     if (aux.tellp() != 1) {
         aux << " ";
     }
-    aux << "(" << value.nombre << " " << value.numeroDeHojas << ")";
+    aux << "(" << value.nombre << " Numero de paginas: " << value.numeroDeHojas << ")";
     if (right != 0) {
         right->inorder(aux);
     }
@@ -178,7 +184,7 @@ void Node::inorder(stringstream &aux) const {
  * @param aux datos del árbol.
  */
 void Node::preorder(std::stringstream &aux) const {
-    aux << "(" << value.nombre << " " << value.numeroDeHojas << ")";
+    aux << "(" << value.nombre << " Numero de paginas: " << value.numeroDeHojas << ")";
     if (left != 0) {
         aux << " ";
         left->preorder(aux);
@@ -380,14 +386,14 @@ bool AVLLibros::empty() const {
  */
 void AVLLibros::add(const Libros &lirbo) {
     if (!empty()) {
-        if (!root->find(lirbo.id)) {
+        if (!root->find(lirbo.numeroDeHojas)) {
             Node *temp;
             Libros check_val(lirbo);
             bool aux = false;
             root->add(lirbo);
             root->max_depth();
             temp = root->check_tree(&check_val, 0, &aux);
-            if (check_val.id == root->value.id) {
+            if (check_val.numeroDeHojas == root->value.numeroDeHojas) {
                 root = temp;
             }
             root->max_depth();
@@ -400,13 +406,13 @@ void AVLLibros::add(const Libros &lirbo) {
 /**
  * @brief Función que busca un nodo en el árbol
  * 
- * @param id identificador del nodo
+ * @param numeroDeHojas numero de páginas del libro
  * @return true se encontró el nodo
  * @return false no se encontró el nodo
  */
-bool AVLLibros::find(int id) const {
+bool AVLLibros::find(int numeroDeHojas) const {
     if (!empty()) {
-        return root->find(id);
+        return root->find(numeroDeHojas);
     } else {
         return false;
     }
