@@ -37,6 +37,7 @@ class Pasillo{
         string getNombre();
         int getnumeroLibros();
         vector<struct Libros> getLibros();
+        string getTitulos();
 };
 
 Pasillo::Pasillo(int id, string nombre, vector<vector<string>> nombres, int nlibros){
@@ -80,6 +81,16 @@ vector<struct Libros> Pasillo::getLibros(){
     return contenido;
 }
 
+string Pasillo::getTitulos(){
+    stringstream aux;
+
+    for(int i= 0; i < contenido.size(); i++){
+        aux << contenido[i].nombre << " ";
+    }
+
+    return aux.str();
+}
+
 class Menu{
     private:
         vector<Pasillo> pasillos;
@@ -105,14 +116,15 @@ class Menu{
                                          "Asi hablo Zaratustra", "Dialogos socraticos", 
                                          "Dialogo en el infierno entre Maquiavelo y Montesquieu"};
 
-        vector<vector<string>> todos= {{"Recepcion"}, {nombreLibrosP}, {nombreLibrosM}, {nombreLibrosCN}, 
+        vector<vector<string>> todos= {{"Recepcion", " ", " ", " ", " ", " "}, {nombreLibrosP}, {nombreLibrosM}, {nombreLibrosCN}, 
                                               {nombreLibrosF}, {nombreLibrosC}, {nombreLibrosPol}};
         vector<Pasillo> crearPasillos();
     public:
         Menu();
-        void crearGrafo();
-        void crearHash();
+        void usarGrafo();
+        void usarHash();
         void usarAVL();
+        void pruebasAutomaticas();
 };
 
 Menu::Menu(){
@@ -130,7 +142,7 @@ vector<Pasillo> Menu::crearPasillos(){
     return temp;
 }
 
-void Menu::crearGrafo(){
+void Menu::usarGrafo(){
     Graph grafo;
     int inicio, final;
 
@@ -152,8 +164,38 @@ void Menu::crearGrafo(){
     
 }
 
-void Menu::crearHash(){
-    cout << "Crear Hash" << endl;
+void Menu::usarHash(){
+    stringstream aux;
+    int continuar, pasillo;
+    bool flag= true;
+
+    Hash<string, string> hash(10, string("empty"), my_Hash);
+
+    for(int i= 1; i < nombrePasillos.size(); i++){
+        aux << pasillos[i-1].getTitulos();
+
+        hash.put(nombrePasillos[i], aux.str());
+                
+        aux.str(string());
+    }
+
+    do
+    {
+        cout << "Ingrese el nombre del pasillo al que quiere acceder [Advertencia: hagalo sin acentos y comenzando las" 
+            "palabras con mayusculas]: ";
+        //cin >> pasillo;
+        pasillo= 1;
+
+        cout << "Pasillo: " << hash.get(nombrePasillos[pasillo]) << endl;
+        cout << "Si desea buscar los datos de otro pasillo, ingrese 1, de lo contrario ingrese 0: ";
+        cin >> continuar;
+
+        if(continuar == 0){
+            flag= false;
+        }
+
+    } while (flag);
+    
 }
 
 void Menu::usarAVL(){

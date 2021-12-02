@@ -49,7 +49,7 @@ Hash <Key, Value>::Hash(unsigned int tam, Key init, unsigned int (*f) (const Key
 	values = new Value[size];
 	
 	for (int j = 0; j  < tam; j++){
-		values[j] = 0;
+		values[j]= " ";
     }
 
 	func = f;
@@ -139,7 +139,7 @@ Value Hash<Key, Value>::get(const Key k){
 	if (pos != -1) {
 		return values[pos];
 	}
-	return 0;
+	return "Not found";
 }
 
 #endif
