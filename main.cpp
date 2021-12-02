@@ -23,7 +23,9 @@ int main(){
     {
         cout << "Bienvenido a la biblioteca, seleccione que funcion desea llevar a cabo" << endl 
              << "1. Encontrar camino a un pasillo en especifico." << endl << "2. Consultar datos por pasillo." << endl
-             << "3. Consultar libros por numero de hojas" << endl << "4. Correr pruebas automaticas" << endl 
+             << "3. Consultar libros por numero de hojas" << endl << "4. Correr pruebas automaticas" << endl
+             << "[ADVERTENCIA] Lea con cuidado las instrucciones, si ingresa texto cuando se le pide numeros y viceversa"
+             ", el programa presentara error" << endl
              << "Eleccion: ";
 
         cin >> funcion;

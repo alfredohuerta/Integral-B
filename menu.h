@@ -246,6 +246,7 @@ void Menu::usarGrafo(){
     cout << "Se encuentra en: " << nombrePasillos[inicio] << endl;
     cout << endl << "Ingrese el pasillo al que desea ir: ";
     cin >> final;
+
     cout << "Desea ir a: " << nombrePasillos[final] << endl;
 
     cout << "Utilice el siguiente camino: " << grafo.DFS(inicio, final, nombrePasillos) << endl;
@@ -318,10 +319,10 @@ void Menu::usarAVL(){
     {
         cout << "Pasillos de la biblioteca: " << endl;
         for (int i= 1; i < nombrePasillos.size(); i++){
-            cout << nombrePasillos[i] << endl;
+            cout << i << ". " << nombrePasillos[i] << endl;
         }
 
-        cout << "Ingrese el pasillo del que quiere extraer los libros: ";
+        cout << "Ingrese el numero del pasillo del que quiere extraer los libros: ";
         cin >> eleccionPasillo;
 
         temp= pasillos[eleccionPasillo].getLibros();
@@ -330,7 +331,7 @@ void Menu::usarAVL(){
             avl.add(temp[i]);
         }
 
-        cout << endl << "Ingrese como desea imprimir sus datos: \n" << "1. inorder\n 2.Preorder\n Esperando... ";
+        cout << endl << "Ingrese como desea imprimir sus datos: \n" << "1. inorder\n2.Preorder\nEsperando... ";
         cin >> eleccion;
 
         switch (eleccion)
@@ -438,6 +439,7 @@ void Menu::pruebasAutomaticas(){
 
     cout << "Esperado [inorder]: " << ans << endl;
     cout << "Obtenido [inorder]: " << test << endl;
+    cout << "\n";
     cout << "Esperado [preorder]: " << ans2 << endl;
     cout << "Obtenido [preorder]: " << test2 << endl;
 }
