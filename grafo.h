@@ -38,17 +38,34 @@ class Graph{
 		void sortAdjList();
 };
 
+/**
+ * @brief Construct a new Graph:: Graph object
+ * 
+ */
 Graph::Graph(){
     edgesList = nodes = 0;
 	adjList= {};
 }
 
+/**
+ * @brief Construct a new Graph:: Graph object
+ * 
+ * @param n valor del nodo que representa la id del pasillo.
+ */
 Graph::Graph(int n){
     nodes = n;
 	adjList = new vector<int>[nodes];
 	edgesList= 0;
 }
 
+/**
+ * @brief Método que lee el archivo de texto que contiene todas las conecciones entre los nodos y carga estas relaciones
+ * en la lista adjunta.
+ * 
+ * @param file_name nombre del archivo que contien las conecciones entre los nodos
+ * @param a valor del nodo
+ * @param b valor del nodo
+ */
 void Graph::loadGraphList(const string &file_name, int a, int b){
 	nodes = a;
     adjList = new vector<int>[nodes];
@@ -68,12 +85,26 @@ void Graph::loadGraphList(const string &file_name, int a, int b){
 	}
 }
 
+/**
+ * @brief Método que asigna nuevos nodos en el grafo
+ * 
+ * @param u valor del nodo
+ * @param v valor del nodo
+ */
 void Graph::addEdgeAdjList(int u, int v){
 	adjList[u].push_back(v);
 	adjList[v].push_back(u);
 	edgesList++;
 }
 
+/**
+ * @brief función que llama al dfs y carga los demás datos necesarios en otras funciones auxiliares.
+ * 
+ * @param start nodo donde se inicia
+ * @param goal nodo al que se quiere ir
+ * @param pasillos vector que ayuda a relacionar los nombres de los pasillos con su valor.
+ * @return string camino que se debe recorrer para llegar al nodo objetivo.
+ */
 string Graph::DFS(int start, int goal, vector<string> &pasillos){
 	stringstream aux;
 
@@ -88,6 +119,17 @@ string Graph::DFS(int start, int goal, vector<string> &pasillos){
 	return aux.str();
 }
 
+/**
+ * @brief Función que lleva a cabo el dfs.
+ * 
+ * @param current hubicación actual de la búsqueda
+ * @param goal nodo al que se quiere ir
+ * @param st stack donde se guardará momentaneamente el valor actual
+ * @param visited lista de nodos visitados
+ * @param paths registro del camino que se ha llevado
+ * @param aux stringstream que imprimirá los datos en caso de encontrarse un camino válido
+ * @param pasillos lista de nombre de los pasillos para hacer la relación entre valor y nombre del pasillo.
+ */
 void Graph::dfsHelper(int current, int goal, stack<int> &st, list<int> &visited, vector<vector<int>> &paths, stringstream &aux, vector<string> &pasillos){
 	if(current == goal){
 		return;
@@ -108,6 +150,15 @@ void Graph::dfsHelper(int current, int goal, stack<int> &st, list<int> &visited,
 	}
 }
 
+/**
+ * @brief Método que imprime el camino a recorrer para llegar al nodo objetivo una vez se encuentra una ruta válida
+ * 
+ * @param paths camino recorrido
+ * @param start nodo donde se inicia
+ * @param goal nodo donde se termina el camino
+ * @param aux stringstream que servirá para imprimir los datos
+ * @param pasillos lista de nombre de los pasillos para hacer la relación entre el nombre del pasillo y su valor como nodo.
+ */
 void Graph::printPath(vector<vector<int>> &paths, int start, int goal, stringstream &aux, vector<string> &pasillos){
 	int node= paths[goal][0];
 
@@ -129,6 +180,14 @@ void Graph::printPath(vector<vector<int>> &paths, int start, int goal, stringstr
 	}
 }
 
+/**
+ * @brief Método que busca si un nodo se encuentra en la lista de nodos visitados.
+ * 
+ * @param lista lista de nodos visitados.
+ * @param node nodo a buscar en la lista de visitados
+ * @return true se encuentra en la lista de nodos visitados
+ * @return false no se encuentra en la lista de nodos visitados
+ */
 bool Graph::contains(list<int> lista, int node){
 	list<int>::iterator it;
 
@@ -141,6 +200,10 @@ bool Graph::contains(list<int> lista, int node){
 	}
 }
 
+/**
+ * @brief función que ordena los nodos de la lista de adjacencia.
+ * 
+ */
 void Graph::sortAdjList(){
 	for (int i = 0; i < nodes; i++){
 		sort(adjList[i].begin(),adjList[i].end());

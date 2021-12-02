@@ -22,7 +22,14 @@
 
 using namespace std;
 
-
+/**
+ * @brief Función que convierte la Key
+ * 
+ * @complejidad: O(n) por la presencia de un ciclo for.
+ * 
+ * @param s Llave de la hash table
+ * @return unsigned int llave convertida
+ */
 unsigned int my_Hash(const string s) {
     unsigned int acum = 0;
     for (unsigned int i = 0; i < s.size(); i++) {
@@ -31,6 +38,10 @@ unsigned int my_Hash(const string s) {
     return acum;
 }
 
+/**
+ * @brief Clase de apoyo que crea los pasillos de la biblioteca y que será almacenada dentro de la clase Menu, además de 
+ * que facilita el acceso a los distintos datos necesarios, como los libros.
+ */
 class Pasillo{
     private:
         vector<Libros>  contenido;
@@ -49,6 +60,16 @@ class Pasillo{
         string getTitulos();
 };
 
+/**
+ * @brief Construct a new Pasillo:: Pasillo object
+ * 
+ * @complejidad: O(n) por la presencia de un ciclo for.
+ * 
+ * @param id identificador del pasillo
+ * @param nombre nombre del pasillo
+ * @param nombres nombres de las obras almacenadas en el pasillo
+ * @param nlibros numero de libros en el pasillo
+ */
 Pasillo::Pasillo(int id, string nombre, vector<vector<string>> nombres, int nlibros){
     for(int i= 0; i < nlibros; i++){
         nombreLibros.push_back(nombres[id][i]);
@@ -59,6 +80,16 @@ Pasillo::Pasillo(int id, string nombre, vector<vector<string>> nombres, int nlib
     contenido= crearLibros(1, nombreLibros, nombre);
 }
 
+/**
+ * @brief Función que asigna sus datos a las estructuras tipo libro que serán almacenadas en el pasillo
+ * 
+ * @complejidad: O(n) por la presencia de un ciclo for.
+ * 
+ * @param id identificador del libro
+ * @param titulos títulos de los libros
+ * @param ubi pasillo en el que se encuetran los libros
+ * @return vector<struct Libros> vector que contiene las estructuras tipo libros.
+ */
 vector<struct Libros> Pasillo::crearLibros(int id, vector<string> titulos, string ubi){
     Libros lirbo;
     vector<struct Libros> temp;
@@ -76,19 +107,46 @@ vector<struct Libros> Pasillo::crearLibros(int id, vector<string> titulos, strin
 
     return temp;
 }
-
+/**
+ * @brief función que regresa el nombre del pasillo
+ * 
+ * @complejidad: O(1)
+ * 
+ * @return string nombre del pasillo
+ */
 string Pasillo::getNombre(){
     return nombreP;
 }
 
+/**
+ * @brief Funcion que regresa la cantidad de libros en el pasillo
+ * 
+ * @complejidad: O(1)
+ * 
+ * @return int numero de libros en el pasillo
+ */
 int Pasillo::getnumeroLibros(){
     return numeroLibros;
 }
 
+/**
+ * @brief Función que regresa el vector completo de los libros almacenados en el pasillo
+ * 
+ * @complejidad: O(1)
+ * 
+ * @return vector<struct Libros> estructuras tipo libro almacenadas en el pasillo
+ */
 vector<struct Libros> Pasillo::getLibros(){
     return contenido;
 }
 
+/**
+ * @brief Función que recolecta los títulos de los libros almacenados en el pasillo.
+ * 
+ * @complejidad: O(n) por la presencia de un ciclo for para la obtención de los títulos
+ * 
+ * @return string títulos de los libros del pasillo.
+ */
 string Pasillo::getTitulos(){
     stringstream aux;
 
@@ -99,6 +157,10 @@ string Pasillo::getTitulos(){
     return aux.str();
 }
 
+/**
+ * @brief Clase que controla las llamadas a las distintas funciones del programa, además de que contien los datos necesarios
+ * para la creación de las estructuras necesitadas.
+ */
 class Menu{
     private:
         vector<Pasillo> pasillos;
@@ -135,10 +197,21 @@ class Menu{
         void pruebasAutomaticas();
 };
 
+/**
+ * @brief Construct a new Menu:: Menu object
+ */
 Menu::Menu(){
     pasillos= crearPasillos();
 }
  
+/**
+ * @brief Función que construye objetos tipo Pasillo que serán almacenados en el menu para ser asignados cuando sea necesario
+ * en las distintas estructuras de datos
+ * 
+ * @complejidad: O(n) por la presencia de un ciclo for 
+ * 
+ * @return vector<Pasillo> arreglo de Pasillos que facilita su asignación en las demás estructuras de datos
+ */
 vector<Pasillo> Menu::crearPasillos(){
     vector<Pasillo> temp;
 
@@ -150,6 +223,13 @@ vector<Pasillo> Menu::crearPasillos(){
     return temp;
 }
 
+/**
+ * @brief Método que cosntruye y maneja la estructura del grafo.
+ * 
+ * @complejidad_individual: O(n) por la presencia de un ciclo for para la presentación de los nombres de los pasillos.
+ * @complejidad_estructura: O(n*m) ya que se calcula en base a la cantidad de arcos y vértices en el grafo.
+ * Se realiza un análisis más detallado en grafo.h
+ */
 void Menu::usarGrafo(){
     Graph grafo;
     int inicio, final;
@@ -172,6 +252,15 @@ void Menu::usarGrafo(){
     
 }
 
+/**
+ * @brief Método que construye y maneja la estructura del hash table.
+ * 
+ * @complejidad_individual: O(n) por la presencia de ciclos for para el manejo de la asignación de datos en la tabla hash y la 
+ * presentación de los nombres de los pasillos. Pero al no estar anidados quedan como O(n)
+ * @complejidad_estructura: O(n) debido a que en el peor de los casos, la función deberá recorrer todos espacios de la tabla
+ * antes de encontrar el espacio donde la key debe ir.
+ * Se realiza un análisis más exhaustivo en hash.h
+ */
 void Menu::usarHash(){
     stringstream aux;
     int continuar; 
@@ -210,6 +299,15 @@ void Menu::usarHash(){
     
 }
 
+/**
+ * @brief Método que construye y maneja el AVL
+ * 
+ * @complejidad_individual: O(n) por la presencia de ciclos for para la presentación de los pasillos de la biblioteca y 
+ * la construcción del avl, pero al no estar anidados quedan como O(n).
+ * @complejidad_estructura: al ser un AVL, la complejidad de los tiempos de búsqueda es de O(log n), ya conforme avanza
+ * la búsqueda, se va descartando la mitad de los datos.
+ * Se realiza un análisis más exahustivo en grafo.h
+ */
 void Menu::usarAVL(){
     AVLLibros avl;
     vector<struct Libros> temp;
@@ -263,6 +361,11 @@ void Menu::usarAVL(){
     } while (flag);
 }
 
+/**
+ * @brief Método que genera casos de prueba para cada una de las funciones y compara los resultados.
+ * 
+ * @complejidad: O(n) debido a la precencia de ciclos for no anidados.
+ */
 void Menu::pruebasAutomaticas(){
     cout << endl << "Prueba Grafo:" << endl;
     stringstream ssans;
@@ -315,6 +418,7 @@ void Menu::pruebasAutomaticas(){
     for(int i= 0; i < 5; i++){
         avl.add(temp[i]);
     }
+
 
     ans= "[(La Divina Comedia 23) (Poesia Reunida - Ali Chumacero 73) (Nostalgia de la Muerte 145) "
          "(Poesia en movimiento 482) (Iliada 521)]";
