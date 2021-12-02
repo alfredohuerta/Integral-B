@@ -90,9 +90,9 @@ string Graph::DFS(int start, int goal, vector<string> &pasillos){
 
 void Graph::dfsHelper(int current, int goal, stack<int> &st, list<int> &visited, vector<vector<int>> &paths, stringstream &aux, vector<string> &pasillos){
 	if(current == goal){
-		cout << "Se encontro un camino. ";
+		return;
 	} else if(st.empty()){
-		cout << "No se encontró." << endl;
+		cout << "No se encontró camino." << endl;
 		return;
 	} else{
 		current= st.top();
@@ -109,7 +109,6 @@ void Graph::dfsHelper(int current, int goal, stack<int> &st, list<int> &visited,
 }
 
 void Graph::printPath(vector<vector<int>> &paths, int start, int goal, stringstream &aux, vector<string> &pasillos){
-	aux << "Recorre comenzando por: ";
 	int node= paths[goal][0];
 
 	stack<int> alReves;

@@ -116,14 +116,14 @@ void Node::inorder(stringstream &aux) const {
     if (aux.tellp() != 1) {
         aux << " ";
     }
-    aux << "(" << value.nombre << " " << level << " " << balance << ")";
+    aux << "(" << value.nombre << " " << value.numeroDeHojas << ")";
     if (right != 0) {
         right->inorder(aux);
     }
 }
 
 void Node::preorder(std::stringstream &aux) const {
-    aux << "(" << value.nombre << " " << level << " " << balance << ")";
+    aux << "(" << value.nombre << " " << value.numeroDeHojas << ")";
     if (left != 0) {
         aux << " ";
         left->preorder(aux);

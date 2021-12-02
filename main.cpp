@@ -16,7 +16,7 @@ using namespace std;
 
 int main(){
     bool flag= true;
-    int funcion;
+    int funcion, continuar;
     Menu mainz;
 
     do
@@ -27,6 +27,7 @@ int main(){
              << "Eleccion: ";
 
         cin >> funcion;
+        cout << "\n";
 
         switch (funcion)
         {
@@ -46,6 +47,12 @@ int main(){
         default:
             cout << "Ingrese un valor valido" << endl;
             break;
+        }
+        cout << "\nSi desea usar otras funciones, ingrese 1, de lo contrario ingrese 0: ";
+        cin >> continuar;
+
+        if(continuar == 0){
+            flag= false;
         }
     } while (flag);
 }

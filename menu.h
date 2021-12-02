@@ -1,3 +1,10 @@
+/**
+ * @file menu.h
+ * @author Erick Alfredo García Huerta
+ * @brief Archivo que controla las distintas funcionalidades del programa. Manda a llamar las estructuras, recibe datos
+ * e imprime resultados, así como genera casos de prueba para los mismos.
+ * @date 2021-12-01
+ */
 #ifndef MENU_H_
 #define MENU_H_
 
@@ -15,6 +22,7 @@
 
 using namespace std;
 
+
 unsigned int my_Hash(const string s) {
     unsigned int acum = 0;
     for (unsigned int i = 0; i < s.size(); i++) {
@@ -26,6 +34,7 @@ unsigned int my_Hash(const string s) {
 class Pasillo{
     private:
         vector<Libros>  contenido;
+        vector<int> paginas= {521, 23, 145, 482, 73, 100};
         
         string nombreP;
         vector<string> nombreLibros; 
@@ -54,11 +63,10 @@ vector<struct Libros> Pasillo::crearLibros(int id, vector<string> titulos, strin
     Libros lirbo;
     vector<struct Libros> temp;
     int i= 0;
-    int paginas= rand() % 500 + 100;
 
     for(int j= 0; j < titulos.size(); j++){
         lirbo.id= i;
-        lirbo.numeroDeHojas= paginas;
+        lirbo.numeroDeHojas= paginas[j];
         lirbo.nombre= titulos[j];
         lirbo.ubicacion= ubi;
 
@@ -153,20 +161,21 @@ void Menu::usarGrafo(){
         cout << i << " " << nombrePasillos[i] << endl;
     }
 
-    cout << "Ingrese su pasillo actual: ";
+    cout << "Ingrese el numero de su pasillo actual: ";
     cin >> inicio;
-    cout << nombrePasillos[inicio] << endl;
+    cout << "Se encuentra en: " << nombrePasillos[inicio] << endl;
     cout << endl << "Ingrese el pasillo al que desea ir: ";
     cin >> final;
-    cout << nombrePasillos[final] << endl;
+    cout << "Desea ir a: " << nombrePasillos[final] << endl;
 
-    cout << grafo.DFS(inicio, final, nombrePasillos) << endl;
+    cout << "Utilice el siguiente camino: " << grafo.DFS(inicio, final, nombrePasillos) << endl;
     
 }
 
 void Menu::usarHash(){
     stringstream aux;
-    int continuar, pasillo;
+    int continuar; 
+    string pasillo;
     bool flag= true;
 
     Hash<string, string> hash(10, string("empty"), my_Hash);
@@ -181,12 +190,15 @@ void Menu::usarHash(){
 
     do
     {
+        cout << "Pasillos de la biblioteca: " << endl;
+        for (int i= 1; i < nombrePasillos.size(); i++){
+            cout << nombrePasillos[i] << endl;
+        }
         cout << "Ingrese el nombre del pasillo al que quiere acceder [Advertencia: hagalo sin acentos y comenzando las" 
-            "palabras con mayusculas]: ";
-        //cin >> pasillo;
-        pasillo= 1;
+                "palabras con mayusculas]: ";
+        cin >> pasillo;
 
-        cout << "Pasillo: " << hash.get(nombrePasillos[pasillo]) << endl;
+        cout << endl << "Contenido del pasillo: " << hash.get(pasillo) << endl;
         cout << "Si desea buscar los datos de otro pasillo, ingrese 1, de lo contrario ingrese 0: ";
         cin >> continuar;
 
@@ -199,14 +211,18 @@ void Menu::usarHash(){
 }
 
 void Menu::usarAVL(){
-    cout << "Crear arbol AVL" << endl;
     AVLLibros avl;
     vector<struct Libros> temp;
-    int eleccionPasillo, eleccion;
+    int eleccionPasillo, eleccion, continuar;
     bool flag= true;
 
     do
     {
+        cout << "Pasillos de la biblioteca: " << endl;
+        for (int i= 1; i < nombrePasillos.size(); i++){
+            cout << nombrePasillos[i] << endl;
+        }
+
         cout << "Ingrese el pasillo del que quiere extraer los libros: ";
         cin >> eleccionPasillo;
 
@@ -216,7 +232,7 @@ void Menu::usarAVL(){
             avl.add(temp[i]);
         }
 
-        cout << endl << "Ingrese cómo desea imprimir sus datos: \n" << "1. inorder\n 2.Preorder\n Esperando... ";
+        cout << endl << "Ingrese como desea imprimir sus datos: \n" << "1. inorder\n 2.Preorder\n Esperando... ";
         cin >> eleccion;
 
         switch (eleccion)
@@ -235,9 +251,89 @@ void Menu::usarAVL(){
             break;
         }
 
+        cout << "Si desea buscar los datos de otro pasillo, ingrese 1, de lo contrario ingrese 0: ";
+        cin >> continuar;
+
+        if(continuar == 0){
+            flag= false;
+        }
+
         avl.removeAll();
 
     } while (flag);
+}
+
+void Menu::pruebasAutomaticas(){
+    cout << endl << "Prueba Grafo:" << endl;
+    stringstream ssans;
+    string test, ans;
+
+    Graph grafoT;
+
+    ans= "Poesia Politica Computacion Medicina";
+    grafoT.loadGraphList("Pasillos.txt", 18, 18);
+    test= grafoT.DFS(1, 2, nombrePasillos);
+
+    if(!ans.compare(test)){
+        cout << "SUCCESS" << endl;
+    } else{
+        cout << "FAIL" << endl;
+    }
+    cout << "Esperado: " << ans << endl;
+    cout << "Obtenido: " << test << endl;
+
+    cout << endl << "Prueba Hash" << endl;
+    Hash<string, string> hashT(10, string("empty"), my_Hash);
+    stringstream aux;
+
+    for(int i= 1; i < nombrePasillos.size(); i++){
+        aux << pasillos[i-1].getTitulos();
+
+        hashT.put(nombrePasillos[i], aux.str());
+                
+        aux.str(string());
+    }
+
+    ssans << pasillos[0].getTitulos();
+
+    if(!ssans.str().compare(hashT.get("Poesia"))){
+        cout << "SUCCESS" << endl;
+    } else{
+        cout << "FAIL" << endl;
+    }
+
+    cout << "Esperado: " << ssans.str() << endl;
+    cout << "Obtenido: " << hashT.get("Poesia") << endl;
+
+    cout << endl << "Prueba AVL" << endl;
+    AVLLibros avl;
+    vector<struct Libros> temp;
+    string ans2, test2;
+
+    temp= pasillos[0].getLibros();
+    
+    for(int i= 0; i < 5; i++){
+        avl.add(temp[i]);
+    }
+
+    ans= "[(La Divina Comedia 23) (Poesia Reunida - Ali Chumacero 73) (Nostalgia de la Muerte 145) "
+         "(Poesia en movimiento 482) (Iliada 521)]";
+    test= avl.inorder();
+
+    ans2= "[(Nostalgia de la Muerte 145) (La Divina Comedia 23) (Poesia Reunida - Ali Chumacero 73) (Iliada 521) "
+          "(Poesia en movimiento 482)]";
+    test2= avl.preorder();
+
+    if(!ans.compare(test) && !ans2.compare(test2)){
+        cout << "SUCCESS" << endl;
+    } else{
+        cout << "FAIL" << endl;
+    }
+
+    cout << "Esperado [inorder]: " << ans << endl;
+    cout << "Obtenido [inorder]: " << test << endl;
+    cout << "Esperado [preorder]: " << ans2 << endl;
+    cout << "Obtenido [preorder]: " << test2 << endl;
 }
 
 #endif
